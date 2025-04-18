@@ -22,3 +22,8 @@ def home():
 @login_required
 def quiz():
     return render_template('quiz.html')
+
+@main.route('/dob')
+@login_required
+def dob():
+    return render_template('dob.html')
