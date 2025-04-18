@@ -3,3 +3,6 @@ venv/
 
 # Byte-compiled files
 __pycache__/
+
+# Flask database file
+db.sqlite
