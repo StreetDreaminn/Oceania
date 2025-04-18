@@ -27,3 +27,8 @@ def quiz():
 @login_required
 def dob():
     return render_template('dob.html')
+
+@main.route('/info')
+@login_required
+def info():
+    return render_template('info.html')
