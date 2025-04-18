@@ -17,3 +17,8 @@ def profile():
 @login_required
 def home():
     return render_template('home.html', name=current_user.name)
+
+@main.route('/quiz')
+@login_required
+def quiz():
+    return render_template('quiz.html')
