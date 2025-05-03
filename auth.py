@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
-from .models import User
+from datetime import datetime
+from .models import Oceania_Users
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -17,7 +18,7 @@ def login_post():
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
 
-    user = User.query.filter_by(email=email).first()
+    user = Oceania_Users.query.filter_by(email=email).first()
 
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
@@ -39,15 +40,29 @@ def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
+    date_of_birth = request.form.get('date_of_birth')
+    date_of_birth = datetime.strptime(date_of_birth, '%Y-%m-%d').date() if date_of_birth else None
 
-    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+    user = Oceania_Users.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
-        flash('Email address already exists')
+        flash('Email address already exists! Go to Login Page!')
+        return redirect(url_for('auth.signup'))
+        
+    if email == "":
+        flash('Email cannot be empty!')
         return redirect(url_for('auth.signup'))
 
+    if name == "":
+        flash('Name cannot be empty!')
+        return redirect(url_for('auth.signup'))
+    
+    if password == "":
+        flash('Password cannot be empty!')
+        return redirect(url_for('auth.signup'))
+    
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='pbkdf2:sha256'))
+    new_user = Oceania_Users(email=email, name=name, password=generate_password_hash(password, method='pbkdf2:sha256'), date_of_birth=date_of_birth)
 
     # add the new user to the database
     db.session.add(new_user)

@@ -9,14 +9,14 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'secret-key-goes-here'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/franklin/oceania/db.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:abc123@localhost/postgres'
 
     db.init_app(app)
 
     with app.app_context():
-        from .models import User
+        from .models import Oceania_Users
         db.create_all()
-
+            
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -24,7 +24,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
-        return User.query.get(int(user_id))
+        return Oceania_Users.query.get(int(user_id))
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
