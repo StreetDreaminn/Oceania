@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
-from . import db
+from . import db, create_app
+from .models import Oceania_Users
 
 main = Blueprint('main', __name__)
 
@@ -32,3 +33,8 @@ def dob():
 @login_required
 def info():
     return render_template('info.html')
+
+@main.route('/quiz_1')
+@login_required
+def quiz_1():
+    return render_template('quiz_info_page.html', month=current_user.date_of_birth.month)

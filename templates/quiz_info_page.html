@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    Here is the quiz article!
+</div>
+
+<div>
+    {% if month == 1 %}
+        {% include 'partials/january.html' %}
+    {% elif month == 2 %}
+        {% include 'partials/february.html' %}
+    {% elif month == 3 %}
+        {% include 'partials/march.html' %}
+    {% elif month == 4 %}
+        {% include 'partials/april.html' %}
+    {% elif month == 5 %}
+        {% include 'partials/may.html' %}
+    {% elif month == 6 %}
+        {% include 'partials/june.html' %}
+    {% elif month == 7 %}
+        {% include 'partials/july.html' %}
+    {% elif month == 8 %}
+        {% include 'partials/august.html' %}
+    {% elif month == 9 %}
+        {% include 'partials/september.html' %}
+    {% elif month == 10 %}
+        {% include 'partials/october.html' %}
+    {% elif month == 11 %}
+        {% include 'partials/november.html' %}
+    {% else %}
+        {% include 'partials/december.html' %}
+    {% endif %}
+</div>
+{% endblock %}
